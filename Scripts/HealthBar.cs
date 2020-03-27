@@ -1,7 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
-using System;
 
 public class HealthBar : MonoBehaviour
 {
@@ -17,25 +16,23 @@ public class HealthBar : MonoBehaviour
 
     public void StartChangetHealth(int value)
     {
-        int temp = 1;
-        if (value < 0)
-        {
-            temp = -1;
-            value *= temp;
-        }
-
-        StartCoroutine(ChangetHealth(value,temp));
+        StartCoroutine(ChangetHealth(value));
     }
     
-    public IEnumerator ChangetHealth(int value,int temp)
+    public IEnumerator ChangetHealth(int value)
     {
-        var wait = new WaitForSeconds(0.005f);
-        int i = 0;
-        while(i++ < value)
+        int addHealth = 1;
+        if (value < 0)
         {
-            _slider.value += 1*temp;
+            addHealth = -1;
+            value *= addHealth;
+        }
+
+        for (int i = 0; i < value; i++)
+        {
+            _slider.value += addHealth;
             _fill.color = _gradient.Evaluate(_slider.normalizedValue);
-            yield return wait;
+            yield return null;
         }
     }
 }
